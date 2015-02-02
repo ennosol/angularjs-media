@@ -72,12 +72,17 @@ angular.module('angularjs.media.directives', [])
 
     return {
       restrict: 'A',
+      scope: {
+        channel: '@'
+      },
       compile: function(elem, attrs, transcludeFn) {
         return function link (scope, element, attrs) {
-          var channel = attrs.channel ? attrs.channel : attrs.twitchChatChannel;
+          //var channel = attrs.channel ? attrs.channel : attrs.twitchChatChannel;
           element.attr('frameborder', '0');
           element.attr('scrolling', 'no');
-          element.attr('src', 'http://' + configure.type + '.tv/chat/embed?channel=' + channel + '&amp;popout_chat=true');
+          scope.$watch('channel', function(channel) {
+            element.attr('src', 'http://' + configure.type + '.tv/chat/embed?channel=' + channel + '&amp;popout_chat=true');
+          });
         };
       }
     };
